@@ -23,7 +23,7 @@ rustPlatform.buildRustPackage rec {
   '';
 
   meta = {
-    description = "Simple Xresources style linux based configuration system that is independent of distro / display backend (Wayland / X11 / etc).";
+    description = "Simple Xresources style linux based configuration system that is independent of distro / display backend (Wayland / X11 / etc)";
     homepage = "https://github.com/regolith-linux/trawl";
     license = lib.licenses.gpl3Plus;
     maintainers = with lib.maintainers; [ sandptel ];
