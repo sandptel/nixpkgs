@@ -6,6 +6,9 @@
   libpulseaudio,
   gobject-introspection,
   wrapGAppsHook4,
+  ladspaPlugins,
+# noise-suppression-for-voice,
+# pulse-vumeter,
 }:
 
 python3.pkgs.buildPythonApplication rec {
@@ -37,6 +40,12 @@ python3.pkgs.buildPythonApplication rec {
   dependencies = with python3.pkgs; [
     pulsectl
     pygobject3
+  ];
+
+  optional-dependencies = [
+    ladspaPlugins
+    # pulse-vumeter
+    # noise-suppression-for-voice
   ];
 
   pythonImportsCheck = [
