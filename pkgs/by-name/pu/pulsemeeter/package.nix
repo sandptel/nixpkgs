@@ -7,6 +7,7 @@
   gobject-introspection,
   wrapGAppsHook4,
   ladspaPlugins,
+  bash,
 # noise-suppression-for-voice,
 # pulse-vumeter,
 }:
@@ -33,6 +34,7 @@ python3.pkgs.buildPythonApplication rec {
   ];
 
   buildInputs = [
+    bash
     libappindicator
     libpulseaudio
   ];
@@ -42,15 +44,21 @@ python3.pkgs.buildPythonApplication rec {
     pygobject3
   ];
 
-  optional-dependencies = [
-    ladspaPlugins
-    # pulse-vumeter
-    # noise-suppression-for-voice
-  ];
-
   pythonImportsCheck = [
     "pulsemeeter"
   ];
+
+  dontWrapGApps = true;
+  # Arguments to be passed to `makeWrapper`, only used by buildPython*
+  preFixup = ''
+    makeWrapperArgs+=("''${gappsWrapperArgs[@]}")
+  '';
+
+  postPatch = ''
+    substituteInPlace scripts/pmctl \
+      --replace-fail '/usr/lib/ladspa' '${ladspaPlugins}/lib/ladspa' \
+      --replace-fail " '/usr/local/lib/ladspa'" ""
+  '';
 
   meta = {
     description = "Replicating voicemeeter routing functionalities in linux with pulseaudio";
